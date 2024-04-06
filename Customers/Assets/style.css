@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Work+Sans:ital,wght@0,400;0,500;1,300&display=swap');
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa; /* Soft background color */
+  color: #333; /* Text color */
+}
+
+/* Container */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Navigation */
+.nav_bar {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.6rem; /* Slightly larger font size */
+  font-weight: 600; /* Increased font weight */
+  color: #333; /* Darker color for better contrast */
+}
+
+.logo i {
+  margin-right: 10px;
+  color: rgb(228, 151, 8);
+  font-size: 2rem; /* Larger icon size */
+}
+
+.menu_list a {
+  margin: 1.2rem;
+  font-size: 1.1rem; /* Slightly larger font size */
+  color: #555; /* Darker color for better readability */
+  transition: color 0.3s ease;
+}
+
+.menu_list a:hover {
+  color: #000; /* Darken color on hover */
+}
+
+.lg_btn {
+  margin-left: 2rem;
+  padding: 10px 24px; /* Increased padding for better clickability */
+  border-radius: 25px; /* Rounded corners */
+  color: #fff;
+  background: rgb(228, 151, 8);
+  cursor: pointer;
+  font-size: 1.1rem; /* Slightly larger font size */
+  font-weight: 500; /* Medium font weight */
+  border: none;
+  transition: background 0.3s ease;
+}
+
+.lg_btn:hover {
+  background: rgb(195, 124, 4);
+}
+
+/* Home Section */
+.home_section {
+  background-color: #333; /* Dark background color for contrast */
+  background-image: url('background.jpg'); /* Replace with your image */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home h1 {
+  font-size: 4.5rem; /* Larger font size */
+  color: #fff;
+  text-transform: capitalize;
+  font-weight: 700; /* Bold font weight */
+  margin-bottom: 20px; /* Increased bottom margin */
+}
+
+.home span {
+  color: rgb(228, 151, 8);
+  font-weight: 600; /* Medium font weight */
+}
+
+.home_buttons {
+  margin-top: 3rem; /* Increased top margin */
+}
+
+.home_buttons button {
+  padding: 12px 28px; /* Increased padding for better clickability */
+  border-radius: 25px; /* Rounded corners */
+  margin: 1rem;
+  cursor: pointer;
+  font-size: 1.1rem; /* Slightly larger font size */
+  color: #fff;
+  background: rgb(228, 151, 8);
+  border: none;
+  font-weight: 500; /* Medium font weight */
+  transition: background 0.3s ease;
+}
+
+.home_buttons button:hover {
+  background: rgb(195, 124, 4);
+}
+
+/* Services */
+.services {
+  background: #fff; /* White background */
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.title h1 {
+  font-size: 3rem; /* Larger font size */
+  text-transform: capitalize;
+  margin-bottom: 1rem;
+  font-weight: 700; /* Bold font weight */
+}
+
+.title span {
+  color: rgb(228, 151, 8);
+}
+
+.title .slogan {
+  font-size: 1.1rem; /* Slightly larger font size */
+  color: #666; /* Darker color for better readability */
+}
+
+.services_boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px; /* Increased gap between boxes */
+  margin-top: 2.5rem; /* Increased top margin */
+}
+
+.box {
+  width: 320px;
+  background: #f8f9fa; /* Soft background color */
+  padding: 2.5rem;
+  border-radius: 30px; /* Rounded corners */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: box-shadow 0.3s ease;
+}
+
+.box:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow on hover */
+}
+
+.box i {
+  font-size: 5rem; /* Larger icon size */
+  color: rgb(228, 151, 8);
+  margin-bottom: 1.5rem; /* Increased bottom margin */
+}
+
+.box p {
+  color: #555; /* Darker color for better readability */
+  margin-top: 15px; /* Increased top margin */
+  font-size: 1.1rem; /* Slightly larger font size */
+}
