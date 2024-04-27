@@ -7,14 +7,16 @@
   <!-- Font Awesome CDN Link -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
   <style>
-    /* Styles for contact section */
+/* Styles for contact section */
 .contact_section {
   background-color: #f9f9f9;
   padding: 60px 0;
+  text-align: center;
 }
 
 .contact_section .container {
-  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .contact_section .title {
@@ -33,8 +35,7 @@
 }
 
 .contact_form {
-  max-width: 600px;
-  margin: 0 auto;
+  margin-bottom: 50px;
 }
 
 .contact_form form .form_group {
@@ -70,6 +71,32 @@
   background-color: #555;
 }
 
+.contact_info {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.info_item {
+  text-align: left;
+}
+
+.info_item i {
+  font-size: 24px;
+  color: #333;
+}
+
+.info_item h4 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.info_item p {
+  color: #666;
+  font-size: 16px;
+}
+
   </style>
 </head>
 <body>
@@ -91,27 +118,46 @@
   </header>
 
   <section class="contact_section">
-    <div class="container">
-      <div class="title">
-        <h1>Contact Us</h1>
-        <span class="slogan">Get in touch with us!</span>
+  <div class="container">
+    <div class="title">
+      <h1>Contact Us</h1>
+      <span class="slogan">Get in touch with us!</span>
+    </div>
+    <div class="contact_form">
+      <form action="#" method="post">
+        <div class="form_group">
+          <input type="text" name="name" id="name" placeholder="Your Name" required>
+        </div>
+        <div class="form_group">
+          <input type="email" name="email" id="email" placeholder="Your Email" required>
+        </div>
+        <div class="form_group">
+          <textarea name="message" id="message" placeholder="Your Message" required></textarea>
+        </div>
+        <button type="submit" class="submit_btn">Send Message</button>
+      </form>
+    </div>
+    <div class="contact_info">
+      <div class="info_item">
+        <i class="fas fa-map-marker-alt"></i>
+        <h4>Location</h4>
+        <p>123 Gear Street, Cityville, Country</p>
       </div>
-      <div class="contact_form">
-        <form action="#" method="post">
-          <div class="form_group">
-            <input type="text" name="name" id="name" placeholder="Your Name" required>
-          </div>
-          <div class="form_group">
-            <input type="email" name="email" id="email" placeholder="Your Email" required>
-          </div>
-          <div class="form_group">
-            <textarea name="message" id="message" placeholder="Your Message" required></textarea>
-          </div>
-          <button type="submit" class="submit_btn">Send Message</button>
-        </form>
+      <div class="info_item">
+        <i class="fas fa-phone-alt"></i>
+        <h4>Phone</h4>
+        <p>+1 123 456 7890</p>
+      </div>
+      <div class="info_item">
+        <i class="fas fa-envelope"></i>
+        <h4>Email</h4>
+        <p>info@gearmaster.com</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+
 
   <script>
     // Get the button element by its class name

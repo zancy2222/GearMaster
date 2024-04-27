@@ -7,17 +7,59 @@
   <!-- Font Awesome Cdn Link -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
   <style>
-/* Styles for about section */
+/* Styles for about section *//* Styles for about section */
 .about_section {
   background-color: #f5f5f5;
   padding: 60px 0;
+  text-align: center;
 }
 
 .about_section h1, .about_section h2, .about_section p {
-  text-align: center;
   color: #333;
   margin-bottom: 30px;
 }
+
+.icon_boxes {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.icon_box {
+  flex: 1 1 calc(33.33% - 30px);
+  max-width: 300px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.icon_box:hover {
+  transform: translateY(-5px);
+}
+
+.icon_box i {
+  font-size: 48px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.icon_box h4 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.icon_box p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
 
 /* Styles for services section */
 .services {
@@ -99,12 +141,30 @@
   </header>
 
   <section class="about_section">
-    <div class="container">
-      <h1>Enhancing Automotive Repair Services</h1>
-      <h2>Through Online Booking and Maintenance Reminders</h2>
-      <p>GearMaster Connect is dedicated to revolutionizing the automotive repair industry by providing convenient online booking services and timely maintenance reminders. We understand the importance of keeping your vehicle running smoothly, and our platform is designed to streamline the process, saving you time and hassle.</p>
+  <div class="container">
+    <h1>Enhancing Automotive Repair Services</h1>
+    <h2>Through Online Booking and Maintenance Reminders</h2>
+    <p>GearMaster Connect is dedicated to revolutionizing the automotive repair industry by providing convenient online booking services and timely maintenance reminders. We understand the importance of keeping your vehicle running smoothly, and our platform is designed to streamline the process, saving you time and hassle.</p>
+    <div class="icon_boxes">
+      <div class="icon_box">
+        <i class="fas fa-calendar-alt"></i>
+        <h4>Convenient Booking</h4>
+        <p>Book your appointments online at your convenience.</p>
+      </div>
+      <div class="icon_box">
+        <i class="fas fa-cog"></i>
+        <h4>Professional Service</h4>
+        <p>Experience professional repair and maintenance services.</p>
+      </div>
+      <div class="icon_box">
+        <i class="fas fa-clock"></i>
+        <h4>Timely Reminders</h4>
+        <p>Receive timely reminders for scheduled maintenance.</p>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <section class="services">
     <div class="container">

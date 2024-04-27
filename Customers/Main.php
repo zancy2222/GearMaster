@@ -30,47 +30,32 @@
       </header>
     
       <section class="home_section">
-        <div class="overlay">
-          <div class="container">
-            <div class="home">
-              <h1><span>Secure</span> Your <br>Adventure <span>Gear Up</span> <br><span>Reserve</span> Now!</h1>
-              <div class="home_buttons">
+      <div class="overlay">
+        <div class="container">
+          <div class="home">
+            <h1><span>Secure</span> Your <br>Adventure <span>Gear Up</span> <br><span>Reserve</span> Now!</h1>
+            <div class="home_buttons">
+            </div>
+            <div class="services_boxes">
+              <div class="box">
+                <i class="fas fa-car"></i>
+
+              </div>
+
+              <div class="box br">
+                <i class="fa fa-motorcycle" aria-hidden="true"></i>
+              </div>
+
+              <div class="box">
+                <i class="fas fa-cogs"></i>
+
               </div>
             </div>
           </div>
         </div>
-        
-      </section>
-    
-      <section class="services">
-        <div class="container">
-          <div class="title">
-            <h1>Reserve Your <span>Adventure Gear!</span></h1>
-            <span class="slogan">Reserve Your Gear Now!</span>
-          </div>
-          <div class="services_boxes">
-            <div class="box">
-              <i class="fa-solid fa-calendar-alt"></i>
-              <h4>Online Booking</h4>
-              <p>Book your appointment conveniently online, saving you time and hassle.</p>
-            </div>
-          
-            <div class="box br">
-              <i class="fa-solid fa-tools"></i>
-              <h4>Repair Services</h4>
-              <p>Professional repair services to keep your vehicle running smoothly.</p>
-            </div>
-          
-            <div class="box">
-              <i class="fa-solid fa-wrench"></i>
-              <h4>Maintenance Reminders</h4>
-              <p>Receive timely reminders for scheduled maintenance to maintain your vehicle's performance.</p>
-            </div>
-          </div>
-          
       </div>
-      </section>
-    
+
+    </section>
 <script>
   // Get the button element by its class name
   const logoutButton = document.querySelector('.lg_btn');

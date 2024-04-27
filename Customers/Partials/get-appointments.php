@@ -13,17 +13,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $reserveTime = $_POST["reserve_time"];
     $reserveDate = $_POST["schedule"]; // Using the scheduled date from the calendar
 
-    // Prepare and execute SQL statement to insert data into the Reserve table
-    $query = "INSERT INTO Reserve (CustomerName, GearTypes, Messages, ReserveTime, ReserveDate) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
+    // Check if the appointment limit for the date is reached
+    $checkLimitQuery = "SELECT count FROM appointment_counts WHERE date = ?";
+    $stmt = $conn->prepare($checkLimitQuery);
+    $stmt->bind_param("s", $reserveDate);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $appointmentCount = $row['count'];
+        if ($appointmentCount >= 10) {
+            // Appointment limit reached\
+            echo "<script>alert('Appointment limit reached for this date. Only 10');</script>";
+            echo "<script>window.location.href = '../Appoint.php';</script>"; // Redirect back to login page
+            exit();
+
+        }
+    }
+
+    // Insert appointment into the reserve table
+    $insertQuery = "INSERT INTO reserve (CustomerName, GearTypes, Messages, ReserveTime, ReserveDate) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($insertQuery);
     $stmt->bind_param("sssss", $customerName, $gearTypes, $messages, $reserveTime, $reserveDate);
     
-    // Check if the query executed successfully
     if ($stmt->execute()) {
-           // Redirect back to the appointment page if accessed directly without form submission
-    header("Location: ../Appoint.php");
-    exit();
+        // Successfully inserted appointment, now increment appointment count for the date
+        $updateCountQuery = "INSERT INTO appointment_counts (date, count) VALUES (?, 1) ON DUPLICATE KEY UPDATE count = count + 1";
+        $stmtUpdateCount = $conn->prepare($updateCountQuery);
+        $stmtUpdateCount->bind_param("s", $reserveDate);
+        $stmtUpdateCount->execute();
+        
+        // Redirect to the appointment page
+        header("Location: ../Appoint.php");
+        exit();
     } else {
+        // Error in inserting appointment
         echo "Error: " . $stmt->error;
     }
 
@@ -36,3 +61,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit();
 }
 ?>
+ 
