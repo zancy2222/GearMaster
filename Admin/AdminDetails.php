@@ -226,7 +226,13 @@ table tbody tr:hover {
           </a>
           <span class="tooltip">Reminder</span>
         </li>
-        
+        <li>
+          <a href="UserReply.php">
+          <i class='bx bxs-message-rounded-dots'></i>
+          <span class="links_name">User Reply</span>
+          </a>
+          <span class="tooltip">User Reply</span>
+        </li>
       
         <li class="profile">
           <div class="profile-details">

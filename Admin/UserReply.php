@@ -9,7 +9,7 @@
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-       .home-section {
+ .home-section {
     padding: 50px 0;
     background-color: #f8f9fa;
 }
@@ -61,63 +61,113 @@ table tbody tr:hover {
     z-index: 9999;
 }
 
-.popup-content {
-    text-align: center;
-}
 
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 24px;
-    color: #333;
-}
+    .add-button {
+        margin-bottom: 20px;
+        text-align: right;
+    }
 
-.popup-content h2 {
-    margin-bottom: 20px;
-}
+    .add-button button {
+        background-color: green;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-.popup-content label {
-    display: block;
-    margin-bottom: 10px;
-}
-
-.popup-content textarea,
-.popup-content input[type="datetime-local"],
-.popup-content input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
-}
-
-.popup-content input[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.popup-content input[type="submit"]:hover {
-    background-color: #0056b3;
-}
-button {
-            background-color: #007bff;
-            color: white;
+    .add-button button:hover {
+        background-color: darkgreen;
+    }
+    .table-container button {
             border: none;
-            padding: 8px 12px;
+            background: none;
+            cursor: pointer;
+            margin: 0 5px; /* Add margin for spacing */
+        }
+
+        .table-container button:hover {
+            transform: scale(1.1);
+        }
+
+        .edit-button {
+            color: blue;
+            font-size: 24px;
+        }
+
+        .delete-button {
+            color: red;
+            font-size: 24px;
+
+        }
+          /* Styling for pop-up form */        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .form-container h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container input[type="password"],
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-container input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
         }
-        
-        button:hover {
-            background-color: #0056b3;
+
+        .form-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .form-container button {
+            background-color: #f44336;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .form-container button:hover {
+            background-color: #da190b;
         }
     </style>
   </head>
@@ -192,100 +242,63 @@ button {
               <div class="job">Master</div>
             </div>
           </div>
- 
+
           <i class="bx bx-log-out" id="log_out"></i>
         </li>
       </ul>
     </div>
-    <section class="home-section">
+       <section class="home-section">
     <div class="container">
-        <h2>Users info</h2>
+        <h2>Users Reply</h2>
+       
         <div class="table-container">
-        <table>
+<table>
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Chats</th>
-            <th>Reminder DateTime</th>
-            <th>Actions</th> <!-- New column for Edit button -->
+            <th>Reminder</th>
+            <th>Reply Message</th>
         </tr>
     </thead>
     <tbody>
-        <?php
-        // Include database connection
-        include 'Partials/dbConn.php';
+    <?php
+    // Include database connection
+    include 'Partials/dbConn.php';
 
-        // Retrieve reminders from the database
-        $query = "SELECT * FROM Reminder";
-        $result = mysqli_query($conn, $query);
+    // Retrieve data from the reminder and ReplyReminders tables
+    $query = "SELECT r.chats AS reminder, rr.reply_message AS reply_message
+              FROM reminder r
+              LEFT JOIN ReplyReminders rr ON r.id = rr.reminder_id";
+    $result = mysqli_query($conn, $query);
 
-        // Check if there are any reminders
-        if (mysqli_num_rows($result) > 0) {
-            // Loop through each reminder
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo "<tr>";
-                echo "<td>" . $row['id'] . "</td>";
-                echo "<td>" . $row['chats'] . "</td>";
-                echo "<td>" . $row['reminder_datetime'] . "</td>";
-                echo "<td><button onclick='openEditForm(" . $row['id'] . ", \"" . $row['chats'] . "\", \"" . $row['reminder_datetime'] . "\")'>Edit</button></td>";
-                echo "</tr>";
-            }
-        } else {
-            // Display a message if there are no reminders
-            echo "<tr><td colspan='4'>No reminders found</td></tr>";
+    // Check if there are any records
+    if (mysqli_num_rows($result) > 0) {
+        // Display data in the table
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>";
+            echo "<td>" . $row['reminder'] . "</td>";
+            echo "<td>" . $row['reply_message'] . "</td>";
+            echo "</tr>";
         }
+    } else {
+        // Display a message if there are no records
+        echo "<tr><td colspan='2'>No records found</td></tr>";
+    }
 
-        // Close the database connection
-        mysqli_close($conn);
-        ?>
+    // Close the database connection
+    mysqli_close($conn);
+    ?>
     </tbody>
 </table>
-        </div>
+
     </div>
-    </section>
 
-    
-<div id="reminderForm" class="popup-form">
-    <div class="popup-content">
-        <span class="close" onclick="closeReminderForm()">&times;</span>
-        <h2>Edit Reminder</h2>
-        <form id="reminderFormContent" action="Partials/edit-reminder.php" method="post">
-            <label for="chats">Chat:</label>
-            <textarea name="chats" id="chatsInput" placeholder="Enter your chat message" required></textarea>
+   
 
-            <label for="reminder_datetime">Date and Time:</label>
-            <input type="datetime-local" name="reminder_datetime" id="datetimeInput" required>
 
-            <input type="hidden" name="reminder_id" id="reminderId">
-
-            <input type="submit" value="Edit Reminder">
-        </form>
     </div>
-</div>
+</section>
 
     <script src="Assets/script.js"></script>
-    <script>
-    function openEditForm(id, chats, datetime) {
-        document.getElementById('reminderId').value = id;
-        document.getElementById('chatsInput').value = chats;
-        document.getElementById('datetimeInput').value = datetime;
-        document.getElementById('reminderForm').style.display = 'block';
-    }
-
-    function closeReminderForm() {
-        document.getElementById('reminderForm').style.display = 'none';
-    }
-</script>
-<script>
-  // Get the element by its ID
-  const logOutIcon = document.getElementById('log_out');
-
-  // Add click event listener
-  logOutIcon.addEventListener('click', function() {
-    // Redirect to the specified URL
-    window.location.href = '../Login.php';
-  });
-</script>
 
   </body>
 </html>
