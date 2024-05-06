@@ -243,7 +243,7 @@ table tbody tr:hover {
     </div>
        <section class="home-section">
     <div class="container">
-        <h2>Users info</h2>
+        <h2>Admin info</h2>
        <!-- Add button "Add" above the table -->
 <div class="add-button">
 <button id="addButton" onclick="openForm()">Add</button>
@@ -265,7 +265,7 @@ table tbody tr:hover {
 include 'Partials/dbConn.php';
 
 // Retrieve users with the role "user" from the database
-$queryUsers = "SELECT * FROM Users WHERE role = 'user'";
+$queryUsers = "SELECT * FROM Users WHERE role = 'Admin'";
 $resultUsers = mysqli_query($conn, $queryUsers);
 
 // Check if there are any users with the role "user"
@@ -298,8 +298,8 @@ mysqli_close($conn);
 
     <div class="overlay" id="overlay">
         <div class="form-container">
-            <h2>Add User</h2>
-            <form action="Partials/add_user.php" method="POST">
+            <h2>Add Admin</h2>
+            <form action="Partials/add_admin.php" method="POST">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
                 <label for="email">Email:</label>
@@ -309,6 +309,7 @@ mysqli_close($conn);
                 <label for="role">Role:</label>
                 <select name="role" id="role" required>
                     <option value="user">User</option>
+                    <option value="admin">Admin</option>
                 </select>
                 <br><br>
                 <input type="submit" value="Submit">
@@ -320,8 +321,8 @@ mysqli_close($conn);
 <!-- Edit User Pop-up form -->
 <div class="overlay" id="editOverlay">
     <div class="form-container">
-        <h2>Edit User</h2>
-        <form id="editUserForm" method="POST" action="Partials/edit_user.php"> <!-- Add action attribute -->
+        <h2>Edit Admin</h2>
+        <form id="editUserForm" method="POST" action="Partials/edit_admin.php"> <!-- Add action attribute -->
             <input type="hidden" id="editUserId" name="editUserId">
             <label for="editName">Name:</label>
             <input type="text" id="editName" name="editName" required>
@@ -332,6 +333,7 @@ mysqli_close($conn);
             <label for="editRole">Role:</label>
             <select name="editRole" id="editRole" required>
                 <option value="user">User</option>
+                <option value="admin">Admin</option>
             </select>
             <br><br>
             <input type="submit" value="Submit">
@@ -342,9 +344,9 @@ mysqli_close($conn);
 
 <div class="overlay" id="deleteOverlay">
     <div class="form-container">
-        <h2>Delete User</h2>
-        <p>Are you sure you want to delete this user?</p>
-        <form id="deleteUserForm" method="POST" action="Partials/delete_user.php">
+        <h2>Delete Admin</h2>
+        <p>Are you sure you want to delete this Admin?</p>
+        <form id="deleteUserForm" method="POST" action="Partials/delete_admin.php">
             <input type="hidden" id="deleteUserId" name="deleteUserId">
             <input type="submit" value="Delete">
             <button type="button" onclick="closeDeleteForm()">Cancel</button>
@@ -396,7 +398,7 @@ mysqli_close($conn);
                     document.getElementById("editOverlay").style.display = "flex";
                 }
             };
-            xhttp.open("GET", "Partials/get_user.php?userId=" + userId, true);
+            xhttp.open("GET", "Partials/get_admin.php?userId=" + userId, true);
             xhttp.send();
         }
 
@@ -409,7 +411,7 @@ mysqli_close($conn);
 <script>
     // Function to delete user via AJAX
     function deleteUser(userId) {
-        if (confirm("Are you sure you want to delete this user?")) {
+        if (confirm("Are you sure you want to delete this Admin?")) {
             // Send AJAX request to delete_user.php
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
@@ -418,7 +420,7 @@ mysqli_close($conn);
                     location.reload();
                 }
             };
-            xhttp.open("POST", "Partials/delete_user.php", true);
+            xhttp.open("POST", "Partials/delete_admin.php", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send("userId=" + userId);
         }

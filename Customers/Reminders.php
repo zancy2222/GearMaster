@@ -2,7 +2,7 @@
     <html lang="en">
     <head>
       <meta charset="UTF-8" />
-      <title>Gear Master</title>
+      <title>Alfeo's Auto  Electrical Shop</title>
       <link rel="stylesheet" href="Assets/style.css" />
       <!-- Font Awesome Cdn Link -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
@@ -145,14 +145,16 @@ button[type="submit"]:hover {
           <div class="nav_bar">
             <div class="logo">
               <i class="fas fa-gear"></i>
-              <h4>Gear Master</h4>
+              <h4>Alfeo's Auto  Electrical Shop</h4>
             </div>
             
     
               <div class="menu_list">
-                <a href="Main.php">Home</a>
-                <a href="Appoint.php">Book an Appointment</a>
-                <a href="Reminders.php">Reminders</a>
+              <a href="Main.php" style="text-decoration: none;">Home</a>
+            <a href="Appoint.php" style="text-decoration: none;">Book an Appointment</a>
+            <a href="Reminders.php" style="text-decoration: none;">
+              <i class="fas fa-bell"></i> Reminders
+            </a>
     
                 <button class="lg_btn" id="logoutButton">Logout</button>
 

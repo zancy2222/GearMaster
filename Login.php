@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Verify password
             if ($password == $user["password"]) {
                 // Redirect based on user type
-                if ($email == "admin@gmail.com" && $password == "admin") {
+                if ($user['role'] == 'admin') {
                     header("Location: Admin/index.php");
                 } else {
                     header("Location: Customers/Appoint.php?user_id=" . $user["User_Id"]);

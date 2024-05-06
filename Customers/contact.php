@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Gear Master - Contact</title>
+  <title>Alfeo's Auto  Electrical Shop</title>
   <link rel="stylesheet" href="Assets/style.css">
   <!-- Font Awesome CDN Link -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
@@ -105,7 +105,7 @@
       <div class="nav_bar">
         <div class="logo">
           <i class="fas fa-gear"></i>
-          <h4>Gear Master</h4>
+          <h4>Alfeo's Auto  Electrical Shop</h4>
         </div>
         <div class="menu_list">
           <a href="index.php">Home</a>

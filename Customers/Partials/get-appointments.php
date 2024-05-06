@@ -43,10 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmtUpdateCount = $conn->prepare($updateCountQuery);
         $stmtUpdateCount->bind_param("s", $reserveDate);
         $stmtUpdateCount->execute();
-        
-        // Redirect to the appointment page
-        header("Location: ../Appoint.php");
-        exit();
+        echo "<script>alert('Appointment Successfully Booked!');</script>";
+            echo "<script>window.location.href = '../Appoint.php';</script>"; // Redirect back to login page
+            exit();
     } else {
         // Error in inserting appointment
         echo "Error: " . $stmt->error;

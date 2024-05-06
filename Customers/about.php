@@ -127,7 +127,7 @@
       <div class="nav_bar">
         <div class="logo">
           <i class="fas fa-gear"></i>
-          <h4>GearMaster Connect</h4>
+          <h4>Alfeo's Auto  Electrical Shop</h4>
         </div>
         
         <div class="menu_list">
@@ -144,7 +144,7 @@
   <div class="container">
     <h1>Enhancing Automotive Repair Services</h1>
     <h2>Through Online Booking and Maintenance Reminders</h2>
-    <p>GearMaster Connect is dedicated to revolutionizing the automotive repair industry by providing convenient online booking services and timely maintenance reminders. We understand the importance of keeping your vehicle running smoothly, and our platform is designed to streamline the process, saving you time and hassle.</p>
+    <p>Alfeo's Auto  Electrical Shop is dedicated to revolutionizing the automotive repair industry by providing convenient online booking services and timely maintenance reminders. We understand the importance of keeping your vehicle running smoothly, and our platform is designed to streamline the process, saving you time and hassle.</p>
     <div class="icon_boxes">
       <div class="icon_box">
         <i class="fas fa-calendar-alt"></i>

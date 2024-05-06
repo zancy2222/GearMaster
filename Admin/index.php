@@ -13,7 +13,7 @@
     <div class="sidebar">
       <div class="logo-details">
         <i class=""></i>
-        <div class="logo_name">GEAR MASTER</div>
+        <div class="logo_name">Alfeo's Auto  Electrical Shop</div>
         <i class="bx bx-menu" id="btn"></i>
       </div>
       <ul class="nav-list">
@@ -42,6 +42,13 @@
             <span class="links_name">User</span>
           </a>
           <span class="tooltip">User</span>
+        </li>
+        <li>
+          <a href="AdminDetails.php">
+          <i class='bx bxs-user-pin'></i>
+          <span class="links_name">Admins</span>
+          </a>
+          <span class="tooltip">Admins</span>
         </li>
         <li>
           <a href="Graph.php">
