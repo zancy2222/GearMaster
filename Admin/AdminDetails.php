@@ -212,13 +212,7 @@ table tbody tr:hover {
           </a>
           <span class="tooltip">Admins</span>
         </li>
-        <li>
-          <a href="Graph.php">
-            <i class="bx bx-pie-chart-alt-2"></i>
-            <span class="links_name">Analytics</span>
-          </a>
-          <span class="tooltip">Analytics</span>
-        </li>
+
         <li>
           <a href="Reminder.php">
             <i class="bx bx-folder"></i>

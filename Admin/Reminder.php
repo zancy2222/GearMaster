@@ -162,13 +162,7 @@ button {
           </a>
           <span class="tooltip">Admins</span>
         </li>
-        <li>
-          <a href="Graph.php">
-            <i class="bx bx-pie-chart-alt-2"></i>
-            <span class="links_name">Analytics</span>
-          </a>
-          <span class="tooltip">Analytics</span>
-        </li>
+
         <li>
           <a href="Reminder.php">
             <i class="bx bx-folder"></i>
@@ -201,45 +195,50 @@ button {
     <div class="container">
         <h2>Users info</h2>
         <div class="table-container">
-        <table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Chats</th>
-            <th>Reminder DateTime</th>
-            <th>Actions</th> <!-- New column for Edit button -->
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        // Include database connection
-        include 'Partials/dbConn.php';
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Chats</th>
+                <th>Reminder DateTime</th>
+                <th>Actions</th> <!-- New column for Edit and Delete buttons -->
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Include database connection
+            include 'Partials/dbConn.php';
 
-        // Retrieve reminders from the database
-        $query = "SELECT * FROM Reminder";
-        $result = mysqli_query($conn, $query);
+            // Retrieve reminders from the database
+            $query = "SELECT * FROM Reminder";
+            $result = mysqli_query($conn, $query);
 
-        // Check if there are any reminders
-        if (mysqli_num_rows($result) > 0) {
-            // Loop through each reminder
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo "<tr>";
-                echo "<td>" . $row['id'] . "</td>";
-                echo "<td>" . $row['chats'] . "</td>";
-                echo "<td>" . $row['reminder_datetime'] . "</td>";
-                echo "<td><button onclick='openEditForm(" . $row['id'] . ", \"" . $row['chats'] . "\", \"" . $row['reminder_datetime'] . "\")'>Edit</button></td>";
-                echo "</tr>";
+            // Check if there are any reminders
+            if (mysqli_num_rows($result) > 0) {
+                // Loop through each reminder
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr>";
+                    echo "<td>" . $row['id'] . "</td>";
+                    echo "<td>" . $row['chats'] . "</td>";
+                    echo "<td>" . $row['reminder_datetime'] . "</td>";
+                    echo "<td>
+                            <button onclick='openEditForm(" . $row['id'] . ", \"" . $row['chats'] . "\", \"" . $row['reminder_datetime'] . "\")'>Edit</button>
+                            <button onclick='deleteReminder(" . $row['id'] . ")'>Delete</button>
+                          </td>";
+                    echo "</tr>";
+                }
+            } else {
+                // Display a message if there are no reminders
+                echo "<tr><td colspan='4'>No reminders found</td></tr>";
             }
-        } else {
-            // Display a message if there are no reminders
-            echo "<tr><td colspan='4'>No reminders found</td></tr>";
-        }
 
-        // Close the database connection
-        mysqli_close($conn);
-        ?>
-    </tbody>
-</table>
+            // Close the database connection
+            mysqli_close($conn);
+            ?>
+        </tbody>
+    </table>
+</div>
+
         </div>
     </div>
     </section>
@@ -262,6 +261,8 @@ button {
         </form>
     </div>
 </div>
+<!-- Add this line before your script -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script src="Assets/script.js"></script>
     <script>
@@ -285,6 +286,25 @@ button {
     // Redirect to the specified URL
     window.location.href = '../Login.php';
   });
+</script>
+<script>
+    function deleteReminder(id) {
+        if (confirm("Are you sure you want to delete this reminder?")) {
+            // Send an AJAX request to delete the reminder
+            $.ajax({
+                url: 'Partials/delete_reminder.php', // Update the URL with the actual PHP file handling deletion
+                type: 'POST',
+                data: { id: id },
+                success: function(response) {
+                    // Reload the page after successful deletion
+                    location.reload();
+                },
+                error: function() {
+                    alert('Error deleting reminder.');
+                }
+            });
+        }
+    }
 </script>
 
   </body>

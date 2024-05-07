@@ -203,6 +203,8 @@
       // Redirect to the specified URL
       window.location.href = '../Login.php';
     });
+
+    
   </script>
 </body>
 </html>

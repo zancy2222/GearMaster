@@ -1,11 +1,11 @@
 <?php
 session_start();
 
+// Include database connection
+include 'dbConn.php';
+
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Include database connection
-    include 'dbConn.php';
-
     // Retrieve form data
     $customerName = $_POST["customer_name"];
     $gearTypes = $_POST["gear_types"];
@@ -24,11 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_assoc();
         $appointmentCount = $row['count'];
         if ($appointmentCount >= 10) {
-            // Appointment limit reached\
+            // Appointment limit reached
             echo "<script>alert('Appointment limit reached for this date. Only 10');</script>";
-            echo "<script>window.location.href = '../Appoint.php';</script>"; // Redirect back to login page
+            echo "<script>window.location.href = '../Appoint.php';</script>"; // Redirect back to the appointment page
             exit();
-
         }
     }
 
@@ -44,20 +43,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmtUpdateCount->bind_param("s", $reserveDate);
         $stmtUpdateCount->execute();
         echo "<script>alert('Appointment Successfully Booked!');</script>";
-            echo "<script>window.location.href = '../Appoint.php';</script>"; // Redirect back to login page
-            exit();
+        echo "<script>window.location.href = '../Appoint.php';</script>"; // Redirect back to the appointment page
+        exit();
     } else {
         // Error in inserting appointment
         echo "Error: " . $stmt->error;
     }
 
-    // Close the statement and database connection
+    // Close the statement
     $stmt->close();
-    $conn->close();
 } else {
     // Redirect back to the appointment page if accessed directly without form submission
     header("Location: ../Appoint.php");
     exit();
 }
 ?>
- 

@@ -68,19 +68,19 @@
         </div>
         <div class="services_boxes">
           <div class="box">
-            <i class="fa-solid fa-calendar-alt"></i>
+            <i class="fa-solid fa-calendar-alt"  id="calendarIcon"></i>
             <h4>Online Booking</h4>
             <p>Book your appointment conveniently online, saving you time and hassle.</p>
           </div>
 
           <div class="box br">
-            <i class="fa-solid fa-tools"></i>
+            <i class="fa-solid fa-tools"  id="calendarIcons"></i>
             <h4>Repair Services</h4>
             <p>Professional repair services to keep your vehicle running smoothly.</p>
           </div>
 
           <div class="box">
-            <i class="fa-solid fa-wrench"></i>
+            <i class="fa-solid fa-wrench"  id="calendarIconss"></i>
             <h4>Maintenance Reminders</h4>
             <p>Receive timely reminders for scheduled maintenance to maintain your vehicle's performance.</p>
           </div>
@@ -97,7 +97,47 @@
         // Redirect to the specified URL
         window.location.href = '../Login.php';
       });
+    document.addEventListener('DOMContentLoaded', function() {
+    // Get the calendar icon element
+    const calendarIcon = document.getElementById('calendarIcon');
+
+    // Add click event listener to the calendar icon
+    calendarIcon.addEventListener('click', function() {
+        // Display JavaScript prompt
+        alert("You need to login first");
+        window.location.href = '../Login.php';
+
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the calendar icon element
+    const calendarIcons = document.getElementById('calendarIcons');
+
+    // Add click event listener to the calendar icon
+    calendarIcons.addEventListener('click', function() {
+        // Display JavaScript prompt
+        alert("You need to login first");
+        window.location.href = '../Login.php';
+
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the calendar icon element
+    const calendarIconss = document.getElementById('calendarIconss');
+
+    // Add click event listener to the calendar icon
+    calendarIconss.addEventListener('click', function() {
+        // Display JavaScript prompt
+        alert("You need to login first");
+        window.location.href = '../Login.php';
+
+    });
+});
+
+
     </script>
+    
   </body>
 
   </html>

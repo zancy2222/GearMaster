@@ -212,13 +212,7 @@ table tbody tr:hover {
           </a>
           <span class="tooltip">Admins</span>
         </li>
-        <li>
-          <a href="Graph.php">
-            <i class="bx bx-pie-chart-alt-2"></i>
-            <span class="links_name">Analytics</span>
-          </a>
-          <span class="tooltip">Analytics</span>
-        </li>
+
         <li>
           <a href="Reminder.php">
             <i class="bx bx-folder"></i>
@@ -252,11 +246,12 @@ table tbody tr:hover {
         <h2>Users Reply</h2>
        
         <div class="table-container">
-<table>
+        <table>
     <thead>
         <tr>
             <th>Reminder</th>
             <th>Reply Message</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -265,7 +260,7 @@ table tbody tr:hover {
     include 'Partials/dbConn.php';
 
     // Retrieve data from the reminder and ReplyReminders tables
-    $query = "SELECT r.chats AS reminder, rr.reply_message AS reply_message
+    $query = "SELECT r.id AS reminder_id, r.chats AS reminder, rr.reply_message AS reply_message
               FROM reminder r
               LEFT JOIN ReplyReminders rr ON r.id = rr.reminder_id";
     $result = mysqli_query($conn, $query);
@@ -277,11 +272,12 @@ table tbody tr:hover {
             echo "<tr>";
             echo "<td>" . $row['reminder'] . "</td>";
             echo "<td>" . $row['reply_message'] . "</td>";
+            echo "<td><button onclick='deleteReminder(" . $row['reminder_id'] . ")'>Delete</button></td>";
             echo "</tr>";
         }
     } else {
         // Display a message if there are no records
-        echo "<tr><td colspan='2'>No records found</td></tr>";
+        echo "<tr><td colspan='3'>No records found</td></tr>";
     }
 
     // Close the database connection
@@ -297,8 +293,29 @@ table tbody tr:hover {
 
     </div>
 </section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script src="Assets/script.js"></script>
+    <script>
+function deleteReminder(reminderId) {
+    if (confirm("Are you sure you want to delete this reminder?")) {
+        // Send an AJAX request to delete_reminder.php with the reminder ID
+        $.ajax({
+            type: "POST",
+            url: "Partials/reply_delete.php",
+            data: { reminder_id: reminderId },
+            success: function(response) {
+                // Refresh the page or update the table after successful deletion
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                console.error(xhr.responseText);
+            }
+        });
+    }
+}
+</script>
 
   </body>
 </html>
