@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2024 at 03:35 PM
+-- Generation Time: May 06, 2024 at 04:04 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,22 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `gearmasterdb`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `appointmentdone`
---
-
-CREATE TABLE `appointmentdone` (
-  `Reserve_ID` int(11) NOT NULL,
-  `CustomerName` varchar(255) NOT NULL,
-  `GearTypes` varchar(255) NOT NULL,
-  `Messages` text DEFAULT NULL,
-  `ReserveTime` time NOT NULL,
-  `ReserveDate` date NOT NULL,
-  `Status` varchar(50) DEFAULT 'Done'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -98,20 +82,12 @@ CREATE TABLE `users` (
   `Name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('user','admin') NOT NULL DEFAULT 'user',
-  `ContactNumber` varchar(15) NOT NULL,
-  `USN_NO` int(11) NOT NULL
+  `role` enum('user','admin') NOT NULL DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `appointmentdone`
---
-ALTER TABLE `appointmentdone`
-  ADD PRIMARY KEY (`Reserve_ID`);
 
 --
 -- Indexes for table `appointment_counts`
@@ -151,7 +127,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `reminder`
 --
 ALTER TABLE `reminder`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `replyreminders`
