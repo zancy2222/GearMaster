@@ -227,6 +227,22 @@ table tbody tr:hover {
           </a>
           <span class="tooltip">User Reply</span>
         </li>
+        <li>
+          <a href="Admin_History.php">
+          <i class='bx bx-history'></i>
+          <span class="links_name">History</span>
+          </a>
+          <span class="tooltip">History</span>
+        </li>
+
+       
+        <li>
+          <a href="Admin_Summary.php">
+          <i class='bx bx-task'></i>
+          <span class="links_name">Summary</span>
+          </a>
+          <span class="tooltip">Summary</span>
+        </li>
       
         <li class="profile">
           <div class="profile-details">
@@ -249,51 +265,56 @@ table tbody tr:hover {
 <button id="addButton" onclick="openForm()">Add</button>
 </div>
 <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>User ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php
-// Include database connection
-include 'Partials/dbConn.php';
+<table>
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Contact Number</th>
+            <th>USN NO</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php
+    // Include database connection
+    include 'Partials/dbConn.php';
 
-// Retrieve users with the role "user" from the database
-$queryUsers = "SELECT * FROM Users WHERE role = 'user'";
-$resultUsers = mysqli_query($conn, $queryUsers);
+    // Retrieve users with the role "user" from the database
+    $queryUsers = "SELECT * FROM Users WHERE role = 'user'";
+    $resultUsers = mysqli_query($conn, $queryUsers);
 
-// Check if there are any users with the role "user"
-if (mysqli_num_rows($resultUsers) > 0) {
-    // Display users with the role "user" in the table
-    while ($row = mysqli_fetch_assoc($resultUsers)) {
-        echo "<tr>";
-        echo "<td>" . $row['User_Id'] . "</td>";
-        echo "<td>" . $row['Name'] . "</td>";
-        echo "<td>" . $row['email'] . "</td>";
-        echo "<td>" . $row['role'] . "</td>";
-        echo "<td>";
-        echo "<button class='edit-button' onclick='openEditForm(" . $row['User_Id'] . ")'><i class='bx bx-edit-alt'></i></button>"; // Pass User_Id to JavaScript function
-        echo "<button class='delete-button' onclick='deleteUser(" . $row['User_Id'] . ")'><i class='bx bx-trash'></i></button>"; // Delete button with onclick event
-        echo "</td>";
-        echo "</tr>";
+    // Check if there are any users with the role "user"
+    if (mysqli_num_rows($resultUsers) > 0) {
+        // Display users with the role "user" in the table
+        while ($row = mysqli_fetch_assoc($resultUsers)) {
+            echo "<tr>";
+            echo "<td>" . $row['User_Id'] . "</td>";
+            echo "<td>" . $row['Name'] . "</td>";
+            echo "<td>" . $row['email'] . "</td>";
+            echo "<td>" . $row['ContactNumber'] . "</td>"; // Display Contact Number
+            echo "<td>" . $row['USN_NO'] . "</td>"; // Display USN NO
+            echo "<td>" . $row['role'] . "</td>";
+            echo "<td>";
+            echo "<button class='edit-button' onclick='openEditForm(" . $row['User_Id'] . ")'><i class='bx bx-edit-alt'></i></button>"; // Pass User_Id to JavaScript function
+            echo "<button class='delete-button' onclick='deleteUser(" . $row['User_Id'] . ")'><i class='bx bx-trash'></i></button>"; // Delete button with onclick event
+            echo "</td>";
+            echo "</tr>";
+        }
+    } else {
+        // Display a message if there are no users with the role "user"
+        echo "<tr><td colspan='7'>No users found with the role 'user'</td></tr>";
     }
-} else {
-    // Display a message if there are no users with the role "user"
-    echo "<tr><td colspan='5'>No users found with the role 'user'</td></tr>";
-}
 
-// Close the database connection
-mysqli_close($conn);
-?>
+    // Close the database connection
+    mysqli_close($conn);
+    ?>
+    </tbody>
+</table>
 
-            </tbody>
-        </table>
+
     </div>
 
     <div class="overlay" id="overlay">
@@ -333,6 +354,10 @@ mysqli_close($conn);
             <select name="editRole" id="editRole" required>
                 <option value="user">User</option>
             </select>
+            <label for="editContactNumber">Contact Number:</label> <!-- New field for contact number -->
+            <input type="text" id="editContactNumber" name="editContactNumber" required>
+            <label for="editUsnNo">USN NO:</label> <!-- New field for USN NO -->
+            <input type="text" id="editUsnNo" name="editUsnNo" required>
             <br><br>
             <input type="submit" value="Submit">
             <button type="button" onclick="closeEditForm()">Close</button>
@@ -372,39 +397,33 @@ mysqli_close($conn);
     </script>
     
     <script>
-        // Function to open the add user form
-        function openForm() {
-            document.getElementById("overlay").style.display = "flex";
-        }
+    // Function to open the edit user form
+    function openEditForm(userId) {
+        // Fetch user data using AJAX and populate the edit form fields
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let userData = JSON.parse(this.responseText);
+                document.getElementById("editUserId").value = userData.User_Id;
+                document.getElementById("editName").value = userData.Name;
+                document.getElementById("editEmail").value = userData.email;
+                document.getElementById("editPassword").value = userData.password;
+                document.getElementById("editRole").value = userData.role;
+                document.getElementById("editContactNumber").value = userData.ContactNumber; // Populate Contact Number
+                document.getElementById("editUsnNo").value = userData.USN_NO; // Populate USN NO
+                document.getElementById("editOverlay").style.display = "flex";
+            }
+        };
+        xhttp.open("GET", "Partials/get_user.php?userId=" + userId, true);
+        xhttp.send();
+    }
 
-        // Function to close the add user form
-        function closeForm() {
-            document.getElementById("overlay").style.display = "none";
-        }
+    // Function to close the edit user form
+    function closeEditForm() {
+        document.getElementById("editOverlay").style.display = "none";
+    }
+</script>
 
-        // Function to open the edit user form
-        function openEditForm(userId) {
-            // Fetch user data using AJAX and populate the edit form fields
-            let xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    let userData = JSON.parse(this.responseText);
-                    document.getElementById("editUserId").value = userData.User_Id;
-                    document.getElementById("editName").value = userData.Name;
-                    document.getElementById("editEmail").value = userData.email;
-                    document.getElementById("editRole").value = userData.role;
-                    document.getElementById("editOverlay").style.display = "flex";
-                }
-            };
-            xhttp.open("GET", "Partials/get_user.php?userId=" + userId, true);
-            xhttp.send();
-        }
-
-        // Function to close the edit user form
-        function closeEditForm() {
-            document.getElementById("editOverlay").style.display = "none";
-        }
-    </script>
 
 <script>
     // Function to delete user via AJAX

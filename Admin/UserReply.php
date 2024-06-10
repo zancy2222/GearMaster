@@ -227,6 +227,22 @@ table tbody tr:hover {
           </a>
           <span class="tooltip">User Reply</span>
         </li>
+        <li>
+          <a href="Admin_History.php">
+          <i class='bx bx-history'></i>
+          <span class="links_name">History</span>
+          </a>
+          <span class="tooltip">History</span>
+        </li>
+
+       
+        <li>
+          <a href="Admin_Summary.php">
+          <i class='bx bx-task'></i>
+          <span class="links_name">Summary</span>
+          </a>
+          <span class="tooltip">Summary</span>
+        </li>
       
         <li class="profile">
           <div class="profile-details">

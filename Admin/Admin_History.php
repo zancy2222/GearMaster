@@ -7,9 +7,8 @@
     <link rel="stylesheet" href="Assets/style.css" />
     <!-- Boxicons CDN Link -->
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-       .home-section {
+      .home-section {
     padding: 50px 0;
     background-color: #f8f9fa;
 }
@@ -54,7 +53,7 @@ table tbody tr:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #ffffff;
+    background-color: #f9f9f9;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -76,17 +75,23 @@ table tbody tr:hover {
 
 .popup-content h2 {
     margin-bottom: 20px;
+    color: #333;
+}
+
+.popup-content .form-group {
+    margin-bottom: 20px;
 }
 
 .popup-content label {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    color: #333;
 }
 
 .popup-content textarea,
 .popup-content input[type="datetime-local"],
 .popup-content input[type="submit"] {
-    width: 100%;
+    width: calc(100% - 20px);
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -106,6 +111,7 @@ table tbody tr:hover {
 .popup-content input[type="submit"]:hover {
     background-color: #0056b3;
 }
+
 button {
             background-color: #007bff;
             color: white;
@@ -119,7 +125,31 @@ button {
         button:hover {
             background-color: #0056b3;
         }
+
+        .search-box {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #searchInput {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #searchInput:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+        }
+
     </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
     <div class="sidebar">
@@ -185,7 +215,7 @@ button {
           <span class="tooltip">History</span>
         </li>
 
-       
+
         <li>
           <a href="Admin_Summary.php">
           <i class='bx bx-task'></i>
@@ -193,6 +223,7 @@ button {
           </a>
           <span class="tooltip">Summary</span>
         </li>
+        
       
         <li class="profile">
           <div class="profile-details">
@@ -202,97 +233,103 @@ button {
               <div class="job">Master</div>
             </div>
           </div>
- 
+        
           <i class="bx bx-log-out" id="log_out"></i>
         </li>
       </ul>
     </div>
     <section class="home-section">
     <div class="container">
-        <h2>Users info</h2>
         <div class="table-container">
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Chats</th>
-                <th>Reminder DateTime</th>
-                <th>Actions</th> <!-- New column for Edit and Delete buttons -->
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            // Include database connection
-            include 'Partials/dbConn.php';
+            <!-- Search Box -->
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search for appointments...">
+            </div>
 
-            // Retrieve reminders from the database
-            $query = "SELECT * FROM Reminder";
-            $result = mysqli_query($conn, $query);
+            <!-- Appointments Done Table -->
+            <h2>Appointments Done</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Reservation ID</th>
+                        <th>Customer Name</th>
+                        <th>Gear Types</th>
+                        <th>Messages</th>
+                        <th>Reservation Time</th>
+                        <th>Reservation Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="appointmentsTable">
+                <?php
+                include 'Partials/dbConn.php';
+                // Retrieve appointments done from the database
+                $query = "SELECT * FROM AppointmentDone";
+                $result = mysqli_query($conn, $query);
 
-            // Check if there are any reminders
-            if (mysqli_num_rows($result) > 0) {
-                // Loop through each reminder
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<tr>";
-                    echo "<td>" . $row['id'] . "</td>";
-                    echo "<td>" . $row['chats'] . "</td>";
-                    echo "<td>" . $row['reminder_datetime'] . "</td>";
-                    echo "<td>
-                            <button onclick='openEditForm(" . $row['id'] . ", \"" . $row['chats'] . "\", \"" . $row['reminder_datetime'] . "\")'>Edit</button>
-                            <button onclick='deleteReminder(" . $row['id'] . ")'>Delete</button>
-                          </td>";
-                    echo "</tr>";
+                // Check if there are any appointments done
+                if (mysqli_num_rows($result) > 0) {
+                    // Loop through each appointment
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<tr>";
+                        echo "<td>" . $row['Reserve_ID'] . "</td>";
+                        echo "<td>" . $row['CustomerName'] . "</td>";
+                        echo "<td>" . $row['GearTypes'] . "</td>";
+                        echo "<td>" . $row['Messages'] . "</td>";
+                        echo "<td>" . $row['ReserveTime'] . "</td>";
+                        echo "<td>" . $row['ReserveDate'] . "</td>";
+                        echo "<td>" . $row['Status'] . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    // Display a message if there are no appointments done
+                    echo "<tr><td colspan='7'>No appointments done found</td></tr>";
                 }
-            } else {
-                // Display a message if there are no reminders
-                echo "<tr><td colspan='4'>No reminders found</td></tr>";
-            }
 
-            // Close the database connection
-            mysqli_close($conn);
-            ?>
-        </tbody>
-    </table>
-</div>
-
+                // Close the database connection
+                mysqli_close($conn);
+                ?>
+                </tbody>
+            </table>
         </div>
     </div>
-    </section>
+</section>
 
-    
-<div id="reminderForm" class="popup-form">
+
+<div class="popup-form" id="reminderForm">
+    <span class="close" onclick="closeReminderForm()">&times;</span>
     <div class="popup-content">
-        <span class="close" onclick="closeReminderForm()">&times;</span>
-        <h2>Edit Reminder</h2>
-        <form id="reminderFormContent" action="Partials/edit-reminder.php" method="post">
-            <label for="chats">Chat:</label>
-            <textarea name="chats" id="chatsInput" placeholder="Enter your chat message" required></textarea>
-
-            <label for="reminder_datetime">Date and Time:</label>
-            <input type="datetime-local" name="reminder_datetime" id="datetimeInput" required>
-
-            <input type="hidden" name="reminder_id" id="reminderId">
-
-            <input type="submit" value="Edit Reminder">
+        <h2>Create Reminder</h2>
+        <form id="reminderFormContent" action="Partials/save-reminder.php" method="post">
+            <div class="form-group">
+                <label for="reminder_chats">Chats:</label>
+                <textarea name="reminder_chats" id="reminder_chats" placeholder="Enter your message" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="reminder_datetime">Reminder DateTime:</label>
+                <input type="datetime-local" name="reminder_datetime" id="reminder_datetime" required>
+            </div>
+            <input type="hidden" name="reservation_id" id="reservationId">
+            <input type="submit" value="Save Reminder">
         </form>
     </div>
 </div>
-<!-- Add this line before your script -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script src="Assets/script.js"></script>
     <script>
-    function openEditForm(id, chats, datetime) {
-        document.getElementById('reminderId').value = id;
-        document.getElementById('chatsInput').value = chats;
-        document.getElementById('datetimeInput').value = datetime;
-        document.getElementById('reminderForm').style.display = 'block';
-    }
+function openReminderForm(reserveId) {
+    document.getElementById('reminderForm').style.display = 'block';
+    document.getElementById('reserveId').value = reserveId;
+}
 
-    function closeReminderForm() {
-        document.getElementById('reminderForm').style.display = 'none';
-    }
-</script>
+function closeReminderForm() {
+    document.getElementById('reminderForm').style.display = 'none';
+}
+
+    </script>
+
 <script>
   // Get the element by its ID
   const logOutIcon = document.getElementById('log_out');
@@ -303,25 +340,33 @@ button {
     window.location.href = '../Login.php';
   });
 </script>
-<script>
-    function deleteReminder(id) {
-        if (confirm("Are you sure you want to delete this reminder?")) {
-            // Send an AJAX request to delete the reminder
-            $.ajax({
-                url: 'Partials/delete_reminder.php', // Update the URL with the actual PHP file handling deletion
-                type: 'POST',
-                data: { id: id },
-                success: function(response) {
-                    // Reload the page after successful deletion
-                    location.reload();
-                },
-                error: function() {
-                    alert('Error deleting reminder.');
-                }
-            });
-        }
-    }
-</script>
 
+<script>
+function markAsDone(reserveID) {
+    if (confirm('Are you sure you want to mark this reservation as done?')) {
+        // AJAX request to move the reservation to the AppointmentDone table
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'Partials/markAsDone.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // Remove the reservation row from the table
+                document.getElementById('reservation-' + reserveID).remove();
+            }
+        };
+        xhr.send('reserveID=' + reserveID);
+    }
+}
+</script>
+<script>
+$(document).ready(function() {
+    $('#searchInput').on('keyup', function() {
+        var value = $(this).val().toLowerCase();
+        $('#appointmentsTable tr').filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    });
+});
+</script>
   </body>
 </html>

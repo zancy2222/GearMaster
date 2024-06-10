@@ -125,6 +125,29 @@ button {
         button:hover {
             background-color: #0056b3;
         }
+
+        .search-box {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #searchInput {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #searchInput:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+        }
+
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
@@ -217,79 +240,87 @@ button {
     </div>
     <section class="home-section">
     <div class="container">
-        <h2>Reservations</h2>
         <div class="table-container">
-        <table>
-    <thead>
-        <tr>
-            <th>Reservation ID</th>
-            <th>Customer Name</th>
-            <th>Gear Types</th>
-            <th>Messages</th>
-            <th>Reservation Time</th>
-            <th>Reservation Date</th>
-            <th>Date Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php
-    // Include database connection
-    include 'Partials/dbConn.php';
+            <!-- Search Box -->
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search for appointments...">
+            </div>
 
-    // Retrieve reservations from the database
-    $query = "SELECT * FROM Reserve";
-    $result = mysqli_query($conn, $query);
+            <!-- Appointments Done Table -->
+            <?php
+// Include database connection
+include 'Partials/dbConn.php';
 
-    // Check if there are any reservations
-    if (mysqli_num_rows($result) > 0) {
-        // Loop through each reservation
-        while ($row = mysqli_fetch_assoc($result)) {
-            // Get the reservation date and format it as Y-m-d
-            $reserveDate = date('Y-m-d', strtotime($row['ReserveDate']));
-            $today = date('Y-m-d');
-            $yesterday = date('Y-m-d', strtotime('-1 day'));
-            $tomorrow = date('Y-m-d', strtotime('+1 day'));
+// Fetch data from AppointmentDone table
+$appointmentDoneQuery = "SELECT * FROM AppointmentDone";
+$appointmentDoneResult = mysqli_query($conn, $appointmentDoneQuery);
 
-            // Determine the date status
-            if ($reserveDate == $today) {
-                $dateStatus = "Today";
-            } elseif ($reserveDate == $yesterday) {
-                $dateStatus = "Yesterday";
-            } elseif ($reserveDate == $tomorrow) {
-                $dateStatus = "Tomorrow";
-            } else {
-                $dateStatus = "Other";
-            }
-
-            echo "<tr id='reservation-{$row['Reserve_ID']}'>";
-            echo "<td>" . $row['Reserve_ID'] . "</td>";
-            echo "<td>" . $row['CustomerName'] . "</td>";
-            echo "<td>" . $row['GearTypes'] . "</td>";
-            echo "<td>" . $row['Messages'] . "</td>";
-            echo "<td>" . $row['ReserveTime'] . "</td>";
-            echo "<td>" . $row['ReserveDate'] . "</td>";
-            echo "<td>" . $dateStatus . "</td>";
-            echo "<td>
-                    <button onclick='openReminderForm(" . $row['Reserve_ID'] . ")'>Notify</button>
-                    <button onclick='markAsDone(" . $row['Reserve_ID'] . ")'>Done</button>
-                  </td>";
-            echo "</tr>";
-        }
-    } else {
-        // Display a message if there are no reservations
-        echo "<tr><td colspan='8'>No reservations found</td></tr>";
+// Check if there are any appointments done
+if (mysqli_num_rows($appointmentDoneResult) > 0) {
+    echo "<h2>Appointments Done</h2>";
+    echo "<table>";
+    echo "<thead>";
+    echo "<tr>";
+    echo "<th>Reservation ID</th>";
+    echo "<th>Customer Name</th>";
+    echo "<th>Status</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+    // Loop through each appointment
+    while ($appointmentRow = mysqli_fetch_assoc($appointmentDoneResult)) {
+        echo "<tr>";
+        echo "<td>" . $appointmentRow['Reserve_ID'] . "</td>";
+        echo "<td>" . $appointmentRow['CustomerName'] . "</td>";
+        echo "<td>Finished</td>";
+        echo "</tr>";
     }
+    echo "</tbody>";
+    echo "</table>";
+} else {
+    // Display a message if there are no appointments done
+    echo "<p>No appointments done found.</p>";
+}
 
-    // Close the database connection
-    mysqli_close($conn);
-    ?>
-    </tbody>
-</table>
+// Fetch data from Reserve table
+$reserveQuery = "SELECT * FROM Reserve";
+$reserveResult = mysqli_query($conn, $reserveQuery);
+
+// Check if there are any reservations
+if (mysqli_num_rows($reserveResult) > 0) {
+    echo "<h2>Reservations (Unfinished)</h2>";
+    echo "<table>";
+    echo "<thead>";
+    echo "<tr>";
+    echo "<th>Reservation ID</th>";
+    echo "<th>Customer Name</th>";
+    echo "<th>Status</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+    // Loop through each reservation
+    while ($reserveRow = mysqli_fetch_assoc($reserveResult)) {
+        echo "<tr>";
+        echo "<td>" . $reserveRow['Reserve_ID'] . "</td>";
+        echo "<td>" . $reserveRow['CustomerName'] . "</td>";
+        echo "<td>Unfinished</td>";
+        echo "</tr>";
+    }
+    echo "</tbody>";
+    echo "</table>";
+} else {
+    // Display a message if there are no reservations
+    echo "<p>No reservations found.</p>";
+}
+
+// Close the database connection
+mysqli_close($conn);
+?>
 
         </div>
     </div>
 </section>
+
 
 <div class="popup-form" id="reminderForm">
     <span class="close" onclick="closeReminderForm()">&times;</span>
@@ -353,6 +384,15 @@ function markAsDone(reserveID) {
     }
 }
 </script>
-
+<script>
+$(document).ready(function() {
+    $('#searchInput').on('keyup', function() {
+        var value = $(this).val().toLowerCase();
+        $('#appointmentsTable tr').filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    });
+});
+</script>
   </body>
 </html>

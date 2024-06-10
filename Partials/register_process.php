@@ -5,6 +5,7 @@ include 'dbConn.php'; // Include database connection
 if(isset($_POST['register'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $contact_number = $_POST['contact_number']; // Get contact number from form
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
@@ -24,7 +25,9 @@ if(isset($_POST['register'])) {
 
     // If email doesn't exist, proceed with registration
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    $sql = "INSERT INTO Users (Name, Email, Password) VALUES ('$name', '$email', '$hashed_password')";
+    $usn_no = mt_rand(10000000, 99999999); // Generate random USN_NO
+
+    $sql = "INSERT INTO Users (Name, Email, Password, ContactNumber, USN_NO) VALUES ('$name', '$email', '$hashed_password', '$contact_number', '$usn_no')";
     if ($conn->query($sql) === TRUE) {
         echo '<script>';
         echo 'alert("Successfully Registered.");';

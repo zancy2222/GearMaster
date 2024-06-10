@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'Partials/dbConn.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["register"])) {
         $name = $_POST["name"];
@@ -16,8 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo 'window.location.href = "Login.php";';
             echo '</script>';
         } else {
+            // Hash the password before storing
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            
             // Insert user details into the Users table
-            $query = "INSERT INTO Users (Name, email, password) VALUES ('$name', '$email', '$password')";
+            $query = "INSERT INTO Users (Name, email, password) VALUES ('$name', '$email', '$hashed_password')";
             if (mysqli_query($conn, $query)) {
                 echo '<script>';
                 echo 'alert("Successfully Registered.");';
@@ -42,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $user = mysqli_fetch_assoc($result);
             // Verify password
-            if ($password == $user["password"]) {
+            if (password_verify($password, $user["password"])) {
                 // Redirect based on user type
                 if ($user['role'] == 'admin') {
                     header("Location: Admin/index.php");
@@ -108,22 +112,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- Registration Form -->
 <div class="form signup">
-    <span class="title">Registration</span>
-    <form action="Login.php" method="POST"> <!-- Specify method as POST -->
+    <form action="Partials/register_process.php" method="POST">
         <div class="input-field">
-            <input type="text" name="name" placeholder="Enter your name" required> <!-- Add name attribute -->
+            <input type="text" name="name" placeholder="Enter your name" required>
             <i class="uil uil-user"></i>
         </div>
         <div class="input-field">
-            <input type="text" name="email" placeholder="Enter your email" required> <!-- Add name attribute -->
+            <input type="text" name="email" placeholder="Enter your email" required>
             <i class="uil uil-envelope icon"></i>
         </div>
         <div class="input-field">
-            <input type="password" name="password" class="password" placeholder="Create a password" required> <!-- Add name attribute -->
+            <input type="text" name="contact_number" placeholder="Enter your contact number" required>
+            <i class="uil uil-phone"></i>
+        </div>
+        <div class="input-field">
+            <input type="password" name="password" class="password" placeholder="Create a password" required>
             <i class="uil uil-lock icon"></i>
         </div>
         <div class="input-field">
-            <input type="password" name="confirm_password" class="password" placeholder="Confirm a password" required> <!-- Add name attribute -->
+            <input type="password" name="confirm_password" class="password" placeholder="Confirm a password" required>
             <i class="uil uil-lock icon"></i>
             <i class="uil uil-eye-slash showHidePw"></i>
         </div>
@@ -143,6 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </span>
     </div>
 </div>
+
 
         </div>
     </div>
