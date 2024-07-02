@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             
             // Insert user details into the Users table
-            $query = "INSERT INTO Users (Name, email, password) VALUES ('$name', '$email', '$hashed_password')";
+            $query = "INSERT INTO Users (Name, email, password, role, ContactNumber, USN_NO) VALUES ('$name', '$email', '$hashed_password', 'user', '1234567890', 1)";
             if (mysqli_query($conn, $query)) {
                 echo '<script>';
                 echo 'alert("Successfully Registered.");';
@@ -35,7 +35,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST["email"];
         $password = $_POST["password"];
         
-        // Check if the email exists
+        // Hardcoded admin credentials
+        $admin_email = 'admin@gmail.com';
+        $admin_password = 'admin';
+
+        if ($email == $admin_email && $password == $admin_password) {
+            $_SESSION["user_id"] = 1; // Example ID for the admin
+            $_SESSION["role"] = 'admin';
+            header("Location: Admin/index.php");
+            exit();
+        }
+        
+        // Check if the email exists in the database
         $query = "SELECT * FROM Users WHERE email='$email'";
         $result = mysqli_query($conn, $query);
         if (mysqli_num_rows($result) == 0) {
@@ -47,12 +58,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = mysqli_fetch_assoc($result);
             // Verify password
             if (password_verify($password, $user["password"])) {
+                $_SESSION["user_id"] = $user["User_Id"];
+                $_SESSION["role"] = $user["role"];
+                
                 // Redirect based on user type
                 if ($user['role'] == 'admin') {
                     header("Location: Admin/index.php");
                 } else {
                     header("Location: Customers/Appoint.php?user_id=" . $user["User_Id"]);
                 }
+                exit(); // Ensure the script stops executing after redirection
             } else {
                 echo '<script>';
                 echo 'alert("Incorrect Password.");';

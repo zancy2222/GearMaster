@@ -10,8 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $role = $_POST['role'];
 
+    // Hash the password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
     // Prepare and execute query to insert new user data into the database
-    $query = "INSERT INTO Users (Name, email, password, role) VALUES ('$name', '$email', '$password', '$role')";
+    $query = "INSERT INTO Users (Name, email, password, role) VALUES ('$name', '$email', '$hashed_password', '$role')";
     $result = mysqli_query($conn, $query);
 
     if ($result) {
